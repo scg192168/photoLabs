@@ -56,13 +56,17 @@ const sampleDataForPhotoList = [
   },
 ];
 
-const PhotoList = () => {
+const PhotoList = (props) => {
   return (
     <ul className="photo-list">
       {sampleDataForPhotoList.map((photo, index) => (
         <PhotoListItem
           key={photo.id}
           photo={photo}
+          isLiked={props.favorites.includes(photo.id)}
+          toggleFavorite={() => {
+            props.toggleFavorite(photo.id);
+          }}
           imageSource={photo.urls.regular}
         />
       ))}

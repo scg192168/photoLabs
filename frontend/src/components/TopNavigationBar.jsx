@@ -3,7 +3,7 @@ import "../styles/TopNavigationBar.scss";
 import FavBadge from "./FavBadge";
 import "../styles/TopNavigationBar.scss";
 
-const TopNavigation = () => {
+const TopNavigation = (props) => {
   return (
     <div className="top-nav-bar">
       <span className="top-nav-bar__logo">PhotoLabs</span>
@@ -12,7 +12,7 @@ const TopNavigation = () => {
         <span className="top-nav-bar__option">Travel</span>
         <span className="top-nav-bar__option">People</span>
       </div>
-      <FavBadge /> {/* Include the FabBadge component here */}
+      <FavBadge isFavPhotoExist={props.favorited}/> {/* Include the FabBadge component here */}
     </div>
   );
 };

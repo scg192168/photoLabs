@@ -1,64 +1,158 @@
+const dbquery = require("./dbquery");
 const router = require("express").Router();
 
-module.exports = db => {
-  router.get("/photos", (request, response) => {
-    const protocol = request.protocol;
-    const host = request.hostname;
-    const port = process.env.PORT || 8001;
-    const serverUrl = `${protocol}://${host}:${port}`;
+module.exports = (db) => {
+  // Endpoint to mark a photo as a favorite
+  router.post("/photos/:photoId/favorite", (req, res) => {
+    const { photoId } = req.params;
+    const { userId } = req.body; // Assuming userId is sent in the request body
 
-    db.query(`
-      SELECT 
-      json_agg(
-          json_build_object(
-            'id', photo.id,
-            'urls', json_build_object(
-              'full', concat('${serverUrl}/images/', photo.full_url),
-              'regular', concat('${serverUrl}/images/', photo.regular_url)
-            ),
-            'user', json_build_object(
-              'username', user_account.username,
-              'name', user_account.fullname,
-              'profile', concat('${serverUrl}/images/', user_account.profile_url)
-            ),
-            'location', json_build_object(
-              'city', photo.city,
-              'country', photo.country
-            ),
-            'similar_photos', (
-              SELECT 
-                json_agg(
-                  json_build_object(
-                    'id', similar_photo.id,
-                    'urls', json_build_object(
-                      'full', concat('${serverUrl}/images/', similar_photo.full_url),
-                      'regular', concat('${serverUrl}/images/', similar_photo.regular_url)
-                    ),
-                    'user', json_build_object(
-                      'username', similar_user_account.username,
-                      'name', similar_user_account.fullname,
-                      'profile', concat('${serverUrl}/images/', similar_user_account.profile_url)
-                    ),
-                    'location', json_build_object(
-                      'city', similar_photo.city,
-                      'country', similar_photo.country
-                    )
-                  )
-                )
-              FROM photo AS similar_photo
-              JOIN user_account AS similar_user_account ON similar_user_account.id = similar_photo.user_id
-              WHERE similar_photo.id <> photo.id
-              AND similar_photo.topic_id = photo.topic_id
-              LIMIT 4
-            )
-          )
-        ) as photo_data
-      FROM photo
-      JOIN user_account ON user_account.id = photo.user_id;
-    `).then(({ rows }) => {
-      response.json(rows[0].photo_data);
-    });
+    // Insert into favorites table
+    const query = `
+      INSERT INTO favorites (user_id, photo_id)
+      VALUES ($1, $2)
+    `;
+
+    db.query(query, [userId, photoId])
+      .then(() => {
+        res.status(200).send("Photo marked as favorite");
+      })
+      .catch((error) => {
+        console.error("Error marking photo as favorite:", error);
+        res.status(500).send("Internal Server Error");
+      });
+  });
+
+  // Endpoint to get user's favorite photos
+  router.get("/favorites/:userId", (req, res) => {
+    const { userId } = req.params;
+
+    // Retrieve favorite photos for a user
+    const query = `
+      SELECT photos.*
+      FROM photos
+      JOIN favorites ON photos.id = favorites.photo_id
+      WHERE favorites.user_id = $1
+    `;
+
+    db.query(query, [userId])
+      .then((result) => {
+        const favoritePhotos = result.rows;
+        res.status(200).json(favoritePhotos);
+      })
+      .catch((error) => {
+        console.error("Error getting favorite photos:", error);
+        res.status(500).send("Internal Server Error");
+      });
   });
 
   return router;
 };
+
+// const dbquery = require("./dbquery");
+// const router = require("express").Router();
+
+// module.exports = db => {
+//   router.get("/photos", (request, response) => {
+//     const protocol = request.protocol;
+//     const host = request.hostname;
+//     const port = process.env.PORT || 8001;
+//     const serverUrl = `${protocol}://${host}:${port}`;
+
+//      // Endpoint to mark a photo as a favorite
+//   router.post("/photos/:photoId/favorite", (req, res) => {
+//     const { photoId } = req.params;
+//     const { userId } = req.body; // Assuming userId is sent in the request body
+
+//     // Insert into favorites table
+//     const query = `
+//       INSERT INTO favorites (user_id, photo_id)
+//       VALUES ($1, $2)
+//     `;
+//  // Endpoint to mark a photo as a favorite
+//  router.post("/photos/:photoId/favorite", (req, res) => {
+//   const { photoId } = req.params;
+//   const { userId } = req.body; // Assuming userId is sent in the request body
+
+//   // Insert into favorites table
+//   const query = `
+//     INSERT INTO favorites (user_id, photo_id)
+//     VALUES ($1, $2)
+//   `;
+
+//   db.query(query, [userId, photoId])
+//     .then(() => {
+//       res.status(200).send("Photo marked as favorite");
+//     })
+//     .catch((error) => {
+//       console.error("Error marking photo as favorite:", error);
+//       res.status(500).send("Internal Server Error");
+//     });
+// });
+
+// // Endpoint to get user's favorite photos
+// router.get("/favorites/:userId", (req, res) => {
+//   const { userId } = req.params;
+
+//   // Retrieve favorite photos for a user
+//   const query = `
+//     SELECT photos.*
+//     FROM photos
+//     JOIN favorites ON photos.id = favorites.photo_id
+//     WHERE favorites.user_id = $1
+//   `;
+
+//   db.query(query, [userId])
+//     .then((result) => {
+//       const favoritePhotos = result.rows;
+//       res.status(200).json(favoritePhotos);
+//     })
+//     .catch((error) => {
+//       console.error("Error getting favorite photos:", error);
+//       res.status(500).send("Internal Server Error");
+//     });
+// });
+
+// // ... (existing code)
+
+// return router;
+// };
+//     db.query(query, [userId, photoId])
+//       .then(() => {
+//         res.status(200).send("Photo marked as favorite");
+//       })
+//       .catch((error) => {
+//         console.error("Error marking photo as favorite:", error);
+//         res.status(500).send("Internal Server Error");
+//       });
+//   });
+
+//   // Endpoint to get user's favorite photos
+//   router.get("/favorites/:userId", (req, res) => {
+//     const { userId } = req.params;
+
+//     // Retrieve favorite photos for a user
+//     const query = `
+//       SELECT photos.*
+//       FROM photos
+//       JOIN favorites ON photos.id = favorites.photo_id
+//       WHERE favorites.user_id = $1
+//     `;
+
+//     db.query(query, [userId])
+//       .then((result) => {
+//         const favoritePhotos = result.rows;
+//         res.status(200).json(favoritePhotos);
+//       })
+//       .catch((error) => {
+//         console.error("Error getting favorite photos:", error);
+//         res.status(500).send("Internal Server Error");
+//       });
+//   });
+
+// };
+
+//   });
+
+//   return router;
+// };
