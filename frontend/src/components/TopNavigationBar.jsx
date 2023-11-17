@@ -1,9 +1,9 @@
 import React from "react";
 import "../styles/TopNavigationBar.scss";
-import FavBadge from "./FavBadge";
+import FavBadge from "./FavBadge"; // Make sure to import the FavBadge component
 import "../styles/TopNavigationBar.scss";
 
-const TopNavigation = (props) => {
+const TopNavigationBar = (props) => {
   return (
     <div className="top-nav-bar">
       <span className="top-nav-bar__logo">PhotoLabs</span>
@@ -12,9 +12,10 @@ const TopNavigation = (props) => {
         <span className="top-nav-bar__option">Travel</span>
         <span className="top-nav-bar__option">People</span>
       </div>
-      <FavBadge isFavPhotoExist={props.favorited}/> {/* Include the FabBadge component here */}
+      <FavBadge isFavPhotoExist={props.favorited} />{" "}
+      {/* Include the FavBadge component here */}
     </div>
   );
 };
 
-export default TopNavigation;
+export default TopNavigationBar;
