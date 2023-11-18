@@ -35,7 +35,7 @@ const PhotoDetailsModal = ({ closeModal, selectedPhoto }) => {
         const data = await response.json();
         setSimilarPhotos(data.similarPhotos);
       } catch (error) {
-        console.error("Error fetching similar photos:", error);
+        console.error("Error fetching similar photos:");
       }
     };
 

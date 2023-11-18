@@ -7,6 +7,8 @@ import "./App.scss";
 // define a state to store your favorite photos e.g. array of photo IDs
 const App = () => {
   const [favorites, setFavorites] = useState([]);
+  const [selectedPhoto, setSelectedPhoto] = useState();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const addToFavorites = (photoID) => {
     setFavorites((prevFavorites) => [...prevFavorites, photoID]);
   };
@@ -30,17 +32,17 @@ const App = () => {
       setFavorites((prevFavorites) => [...prevFavorites, photoID]);
     }
   };
-  const [selectedPhoto, setSelectedPhoto] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const openModal = (photoID) => {
+  // const [selectedPhoto, setSelectedPhoto] = useState(null);
+
+  const openModal = (photoDetails) => {
     /*Fetch data for the selected photo based on photo ID */
-    const selectedPhotoData = fetchDataForSelectedPhoto(photoID);
-    setSelectedPhoto(selectedPhotoData);
+    // const selectedPhotoData = fetchDataForSelectedPhoto(photoID);
+    setSelectedPhoto(photoDetails);
     setIsModalOpen(true);
   };
-  // const closeModal = () => {
-  //   setIsModalOpen(false);
-
+  const closeModal = () => {
+  setIsModalOpen(false);
+  }
   return (
     <div className="App">
       <TopNavigationBar favorites={favorites.length > 0} />
