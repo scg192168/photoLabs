@@ -30,24 +30,34 @@ const App = () => {
       setFavorites((prevFavorites) => [...prevFavorites, photoID]);
     }
   };
+  const [selectedPhoto, setSelectedPhoto] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const closeModal = () => {
-    setIsModalOpen(false);
+  const openModal = (photoID) => {
+    /*Fetch data for the selected photo based on photo ID */
+    const selectedPhotoData = fetchDataForSelectedPhoto(photoID);
+    setSelectedPhoto(selectedPhotoData);
+    setIsModalOpen(true);
   };
+  // const closeModal = () => {
+  //   setIsModalOpen(false);
 
   return (
     <div className="App">
-      <TopNavigationBar favorited={favorites.length > 0} />
+      <TopNavigationBar favorites={favorites.length > 0} />
       <PhotoList
         favorites={favorites}
         addToFavorites={addToFavorites}
         removeFromFavorites={removeFromFavorites}
         isLiked={isLiked}
         toggleFavorite={toggleFavorite}
-        openModal={() => setIsModalOpen(true)}
+        openModal={openModal}
       />
-      {isModalOpen && <PhotoDetailsModal closeModal={closeModal} />}{" "}
+      {isModalOpen && (
+        <PhotoDetailsModal
+          closeModal={closeModal}
+          selectedPhoto={{ selectedPhoto }}
+        />
+      )}{" "}
       {/* Render the modal when isModalOpen is true */}
     </div>
   );

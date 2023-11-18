@@ -12,7 +12,7 @@ const TopNavigationBar = (props) => {
         <span className="top-nav-bar__option">Travel</span>
         <span className="top-nav-bar__option">People</span>
       </div>
-      <FavBadge isFavPhotoExist={props.favorited} />{" "}
+      <FavBadge isFavPhotoExist={props.favorites} />{" "}
       {/* Include the FavBadge component here */}
     </div>
   );
