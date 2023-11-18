@@ -11,7 +11,11 @@ const PhotoListItem = (props) => {
         toggleFavorite={props.toggleFavorite}
         isLiked={props.isLiked}
       />
-      <img className="photo-list__image" src={props.imageSource} />
+      <img
+        className="photo-list__image"
+        src={props.imageSource}
+        onClick={props.onClick}
+      />
       <div className="photo-list__user-details">
         <img className="photo-list__user-profile" src={photo.user.profile} />
         <div className="photo-list__user-info">

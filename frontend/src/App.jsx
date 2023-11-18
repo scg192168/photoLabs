@@ -20,6 +20,7 @@ const App = () => {
   const isLiked = (photoID) => {
     return favorites.includes(photoID);
   };
+
   const toggleFavorite = (photoID) => {
     if (favorites.includes(photoID)) {
       setFavorites((prevFavorites) =>
@@ -30,6 +31,11 @@ const App = () => {
     }
   };
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div className="App">
       <TopNavigationBar favorited={favorites.length > 0} />
@@ -41,7 +47,7 @@ const App = () => {
         toggleFavorite={toggleFavorite}
         openModal={() => setIsModalOpen(true)}
       />
-      {isModalOpen && <PhotoDetailsModal />}{" "}
+      {isModalOpen && <PhotoDetailsModal closeModal={closeModal} />}{" "}
       {/* Render the modal when isModalOpen is true */}
     </div>
   );

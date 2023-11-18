@@ -68,6 +68,7 @@ const PhotoList = (props) => {
             props.toggleFavorite(photo.id);
           }}
           imageSource={photo.urls.regular}
+          onClick={props.openModal}
         />
       ))}
     </ul>
