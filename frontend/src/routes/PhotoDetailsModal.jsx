@@ -25,24 +25,26 @@ import PhotoFavButton from "../components/PhotoFavButton";
 
 const PhotoDetailsModal = ({ closeModal, selectedPhoto }) => {
   const [similarPhotos, setSimilarPhotos] = useState([]);
+  // console.log(props.selectedPhoto);
+  console.log(selectedPhoto);
 
-  useEffect(() => {
-    // Fetch similar photos based on the selectedPhoto.id from your backend API
-    // Update the API endpoint and data structure accordingly
-    const fetchSimilarPhotos = async () => {
-      try {
-        const response = await fetch(`/api/similar-photos/${selectedPhoto.id}`);
-        const data = await response.json();
-        setSimilarPhotos(data.similarPhotos);
-      } catch (error) {
-        console.error("Error fetching similar photos:");
-      }
-    };
+  // useEffect(() => {
+  //   // Fetch similar photos based on the selectedPhoto.id from your backend API
+  //   // Update the API endpoint and data structure accordingly
+  //   const fetchSimilarPhotos = async () => {
+  //     try {
+  //       const response = await fetch(`/api/similar-photos/${selectedPhoto.id}`);
+  //       const data = await response.json();
+  //       setSimilarPhotos(data.similarPhotos);
+  //     } catch (error) {
+  //       console.error("Error fetching similar photos:");
+  //     }
+  //   };
 
-    if (selectedPhoto) {
-      fetchSimilarPhotos();
-    }
-  }, [selectedPhoto]);
+  //   if (selectedPhoto) {
+  //     fetchSimilarPhotos();
+  //   }
+  // }, [selectedPhoto]);
 
   return (
     <div className="photo-details-modal">
@@ -50,7 +52,7 @@ const PhotoDetailsModal = ({ closeModal, selectedPhoto }) => {
         className="photo-details-modal__close-button"
         onClick={closeModal}
       >
-        <img src={closeSymbol} alt="close symbol" />X
+        <img src={closeSymbol} alt="close symbol" />
       </button>
       <div className="photo-details-modal__content">
         {/* Display details of the selected photo */}
