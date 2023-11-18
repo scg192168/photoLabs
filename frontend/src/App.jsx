@@ -1,27 +1,14 @@
 import React, { useState } from "react";
-import TopNavigationBar from "./components/TopNavigationBar";
-import PhotoList from "./components/PhotoList";
 import PhotoDetailsModal from "./routes/PhotoDetailsModal";
 import "./App.scss";
+import HomeRoute from "./routes/HomeRoute";
+import photos from "mocks/photos";
+import topics from "mocks/topics";
 
-// define a state to store your favorite photos e.g. array of photo IDs
 const App = () => {
   const [favorites, setFavorites] = useState([]);
-  const [selectedPhoto, setSelectedPhoto] = useState();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const addToFavorites = (photoID) => {
-    setFavorites((prevFavorites) => [...prevFavorites, photoID]);
-  };
-  console.log(isModalOpen);
-  const removeFromFavorites = (photoID) => {
-    setFavorites((prevFavorites) =>
-      prevFavorites.filter((id) => id !== photoID)
-    );
-  };
-
-  const isLiked = (photoID) => {
-    return favorites.includes(photoID);
-  };
+  const [diplayModal, setDisplayModal] = useState(false);
+  const [singlePhotoDetails, setSinglePhotoDetails] = useState();
 
   const toggleFavorite = (photoID) => {
     if (favorites.includes(photoID)) {
@@ -32,36 +19,30 @@ const App = () => {
       setFavorites((prevFavorites) => [...prevFavorites, photoID]);
     }
   };
-  // const [selectedPhoto, setSelectedPhoto] = useState(null);
 
-  const openModal = (photoDetails) => {
-    /*Fetch data for the selected photo based on photo ID */
-    // const selectedPhotoData = fetchDataForSelectedPhoto(photoID);
-    setSelectedPhoto(photoDetails);
-    setIsModalOpen(true);
+  const displaySinglePhotoDetails = (photo) => {
+    setDisplayModal(true);
+    setSinglePhotoDetails(photo);
   };
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setSelectedPhoto();
-  };
+
   return (
     <div className="App">
-      <TopNavigationBar favorites={favorites.length > 0} />
-      <PhotoList
+      <HomeRoute
         favorites={favorites}
-        addToFavorites={addToFavorites}
-        removeFromFavorites={removeFromFavorites}
-        isLiked={isLiked}
         toggleFavorite={toggleFavorite}
-        openModal={openModal}
+        photos={photos}
+        topics={topics}
+        displaySinglePhotoDetails={displaySinglePhotoDetails}
       />
-      {isModalOpen && (
+      {diplayModal && (
         <PhotoDetailsModal
-          closeModal={closeModal}
-          selectedPhoto={selectedPhoto}
+          closeDisplayModal={setDisplayModal}
+          toggleFavorite={toggleFavorite}
+          favorites={favorites}
+          singlePhotoDetails={singlePhotoDetails}
+          setDisplayModal={setDisplayModal}
         />
-      )}{" "}
-      {/* Render the modal when isModalOpen is true */}
+      )}
     </div>
   );
 };
