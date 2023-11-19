@@ -1,50 +1,63 @@
-import React, { useState } from "react";
-import PhotoDetailsModal from "./routes/PhotoDetailsModal";
-import "./App.scss";
+import React from "react";
 import HomeRoute from "./routes/HomeRoute";
-import photos from "mocks/photos";
-import topics from "mocks/topics";
+import PhotoDetailsModal from "./routes/PhotoDetailsModal";
+import useApplicationData from "hooks/useApplicationData";
+import "./App.scss";
 
 const App = () => {
-  const [favorites, setFavorites] = useState([]);
-  const [diplayModal, setDisplayModal] = useState(false);
-  const [singlePhotoDetails, setSinglePhotoDetails] = useState();
-
-  const toggleFavorite = (photoID) => {
-    if (favorites.includes(photoID)) {
-      setFavorites((prevFavorites) =>
-        prevFavorites.filter((id) => id !== photoID)
-      );
-    } else {
-      setFavorites((prevFavorites) => [...prevFavorites, photoID]);
-    }
-  };
-
-  const displaySinglePhotoDetails = (photo) => {
-    setDisplayModal(true);
-    setSinglePhotoDetails(photo);
-  };
+  const {
+    state,
+    onPhotoSelect,
+    updateToFavPhotoIds,
+    onClosePhotoDetailsModal,
+    getPhotosByTopicId,
+  } = useApplicationData();
 
   return (
-    <div className="App">
+    <>
       <HomeRoute
-        favorites={favorites}
-        toggleFavorite={toggleFavorite}
-        photos={photos}
-        topics={topics}
-        displaySinglePhotoDetails={displaySinglePhotoDetails}
+        openModal={onPhotoSelect}
+        favoritesPhotos={state.favoritesPhotos}
+        toggleFavorite={updateToFavPhotoIds}
+        topics={state.topics}
+        photos={state.photos}
+        getPhotosByTopicId={getPhotosByTopicId}
       />
-      {diplayModal && (
+      {state.isModalOpen && (
         <PhotoDetailsModal
-          closeDisplayModal={setDisplayModal}
-          toggleFavorite={toggleFavorite}
-          favorites={favorites}
-          singlePhotoDetails={singlePhotoDetails}
-          setDisplayModal={setDisplayModal}
+          closeModal={onClosePhotoDetailsModal}
+          selectedPhoto={state.selectedPhoto}
+          favoritesPhotos={state.favoritesPhotos}
+          toggleFavorite={updateToFavPhotoIds}
+          photos={state.photos}
         />
       )}
-    </div>
+    </>
   );
 };
 
 export default App;
+
+//   return (
+//     <div className="App">
+//       <HomeRoute
+//         favorites={favorites}
+//         toggleFavorite={toggleFavorite}
+//         photos={photos}
+//         topics={topics}
+//         displaySinglePhotoDetails={displaySinglePhotoDetails}
+//       />
+//       {diplayModal && (
+//         <PhotoDetailsModal
+//           closeDisplayModal={setDisplayModal}
+//           toggleFavorite={toggleFavorite}
+//           favorites={favorites}
+//           singlePhotoDetails={singlePhotoDetails}
+//           setDisplayModal={setDisplayModal}
+//         />
+//       )}
+//     </div>
+//   );
+// };
+
+// export default App;

@@ -11,6 +11,7 @@ const PhotoList = (props) => {
           photo={photo}
           photoId={photo.id}
           favorites={props.favorites}
+          openModal={props.openModal}
           toggleFavorite={props.toggleFavorite}
           displaySinglePhotoDetails={props.displaySinglePhotoDetails}
         />

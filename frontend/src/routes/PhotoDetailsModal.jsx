@@ -9,7 +9,7 @@ const PhotoDetailsModal = (props) => {
   return (
     <div className="photo-details-modal">
       <button
-        onClick={() => props.closeDisplayModal(false)}
+        onClick={() => props.closeModal()}
         className="photo-details-modal__close-button"
       >
         <img src={closeSymbol} alt="close symbol" />
@@ -17,24 +17,24 @@ const PhotoDetailsModal = (props) => {
       <div className="photo-details-modal__images">
         <PhotoFavButton
           toggleFavorite={props.toggleFavorite}
-          photoId={props.singlePhotoDetails.id}
+          photoId={props.selectedPhoto.id}
           favorites={props.favorites}
         />
         <img
-          onClick={() => props.setDisplayModal(props.singlePhotoDetails)}
+          onClick={() => props.setDisplayModal(props.selectedPhoto)}
           className="photo-details-modal__image"
-          src={props.singlePhotoDetails.urls.full}
+          src={props.selectedPhoto.urls.full}
         />
         <div className="photo-details-modal__photographer-details ">
           <img
             className="photo-details-modal__photographer-profile"
-            src={props.singlePhotoDetails.user.profile}
+            src={props.selectedPhoto.user.profile}
           />
           <div className="photo-details-modal__photographer-info">
-            {props.singlePhotoDetails.user.name}
+            {props.selectedPhoto.user.name}
             <div className="photo-details-modal__photographer-location">
-              {props.singlePhotoDetails.location.city},
-              {props.singlePhotoDetails.location.country}
+              {props.selectedPhoto.location.city},
+              {props.selectedPhoto.location.country}
             </div>
           </div>
         </div>
@@ -42,7 +42,7 @@ const PhotoDetailsModal = (props) => {
         <div className="photo-details-modal__images">
           {
             <PhotoList
-              photos={Object.values(props.singlePhotoDetails.similar_photos)}
+              photos={Object.values(props.selectedPhoto.similar_photos)}
               favorites={props.favorites}
               toggleFavorite={props.toggleFavorite}
             />

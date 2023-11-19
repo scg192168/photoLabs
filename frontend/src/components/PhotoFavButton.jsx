@@ -10,7 +10,7 @@ const PhotoFavButton = (props) => {
       onClick={() => props.toggleFavorite(props.photoId)}
     >
       <div className="photo-list__fav-icon-svg">
-        <FavIcon selected={props.favorites.includes(props.photoId)} />
+        <FavIcon selected={props.favorites?.includes(props.photoId)} />
       </div>
     </div>
   );
