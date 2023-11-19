@@ -17,7 +17,7 @@ const App = () => {
     <>
       <HomeRoute
         openModal={onPhotoSelect}
-        favoritesPhotos={state.favoritesPhotos}
+        favorites={state.favoritesPhotos}
         toggleFavorite={updateToFavPhotoIds}
         topics={state.topics}
         photos={state.photos}
@@ -27,7 +27,7 @@ const App = () => {
         <PhotoDetailsModal
           closeModal={onClosePhotoDetailsModal}
           selectedPhoto={state.selectedPhoto}
-          favoritesPhotos={state.favoritesPhotos}
+          favorites={state.favoritesPhotos}
           toggleFavorite={updateToFavPhotoIds}
           photos={state.photos}
         />
@@ -37,27 +37,3 @@ const App = () => {
 };
 
 export default App;
-
-//   return (
-//     <div className="App">
-//       <HomeRoute
-//         favorites={favorites}
-//         toggleFavorite={toggleFavorite}
-//         photos={photos}
-//         topics={topics}
-//         displaySinglePhotoDetails={displaySinglePhotoDetails}
-//       />
-//       {diplayModal && (
-//         <PhotoDetailsModal
-//           closeDisplayModal={setDisplayModal}
-//           toggleFavorite={toggleFavorite}
-//           favorites={favorites}
-//           singlePhotoDetails={singlePhotoDetails}
-//           setDisplayModal={setDisplayModal}
-//         />
-//       )}
-//     </div>
-//   );
-// };
-
-// export default App;

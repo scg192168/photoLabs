@@ -69,7 +69,6 @@ const initialState = {
 
 const useApplicationData = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
-
   const updateToFavPhotoIds = (photoId) => {
     if (state.favoritesPhotos.includes(photoId)) {
       dispatch({ type: ACTIONS.FAV_PHOTO_REMOVED, payload: { id: photoId } });

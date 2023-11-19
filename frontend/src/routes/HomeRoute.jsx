@@ -4,7 +4,6 @@ import TopNavigationBar from "components/TopNavigationBar";
 import "../styles/HomeRoute.scss";
 
 const HomeRoute = (props) => {
-  console.log(props);
   return (
     <div className="home-route">
       <TopNavigationBar topics={props.topics} favorites={props.favorites} />
