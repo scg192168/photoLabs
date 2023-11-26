@@ -3,6 +3,7 @@ import { useReducer, useEffect } from "react";
 export const ACTIONS = {
   FAV_PHOTO_ADDED: "FAV_PHOTO_ADDED",
   FAV_PHOTO_REMOVED: "FAV_PHOTO_REMOVED",
+  GET_PHOTOS_BY_TOPICS: "GET_PHOTOS_BY_TOPICS",
   SET_PHOTO_DATA: "SET_PHOTO_DATA",
   SET_TOPIC_DATA: "SET_TOPIC_DATA",
   SELECT_PHOTO: "SELECT_PHOTO",
@@ -23,6 +24,11 @@ function reducer(state, action) {
         favoritesPhotos: state.favoritesPhotos.filter(
           (id) => id !== action.payload.id
         ),
+      };
+    case ACTIONS.GET_PHOTOS_BY_TOPICS:
+      return {
+        ...state,
+        photos: action.payload.photos,
       };
     case ACTIONS.SET_PHOTO_DATA:
       return {
