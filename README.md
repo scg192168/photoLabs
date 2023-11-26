@@ -22,3 +22,7 @@ Read `backend/readme` for further setup details.
 cd backend
 npm start
 ```
+## Screenshots added
+[Screenshot 1: Landing page] (https://github.com/scg192168/photoLabs/commit/04eb017c414d301479129c87ed0d4c501472c528#commitcomment-132993944)
+[Screenshot 2: Modal opening] (https://github.com/scg192168/photoLabs/commit/04eb017c414d301479129c87ed0d4c501472c528#commitcomment-132994073)
+[Screenshot 3: Similar photos] (https://github.com/scg192168/photoLabs/commit/04eb017c414d301479129c87ed0d4c501472c528#commitcomment-132994008)
